@@ -8,18 +8,30 @@ Same agent, same prompts, same tools the Telegram bot uses — different transpo
 ## Run locally
 
 ```bash
+cp .env.example .env.local   # fill in token + userId
 npm install
-npm run dev
+npm run dev                   # needs Node 20.19+ or 22.x
 ```
 
-Open the printed URL. The connect dialog is **prefilled with the public staging
-credentials** from the integration doc — just click **Connect**.
+The connect dialog is prefilled from `VITE_*` env vars; if they're unset the
+fields are empty and you paste them in by hand.
 
-| Value         | Example (staging)                                            |
-|---------------|--------------------------------------------------------------|
-| `gatewayUrl`  | `wss://binder-coo.tail2db2f3.ts.net/`                        |
-| `authToken`   | `33695de1ddd1969234f8e65f977858d3d3c095068c667d1a`           |
-| `userId`      | `69ab5277-cd49-4677-a7e6-9c5687f60417`                       |
+| Env var                    | Example                                           |
+|----------------------------|---------------------------------------------------|
+| `VITE_BINDER_GATEWAY_URL`  | `wss://binder-coo.tail2db2f3.ts.net/`             |
+| `VITE_BINDER_AUTH_TOKEN`   | _(per-tenant secret — do not commit)_             |
+| `VITE_BINDER_USER_ID`      | _(your Binder `users.id` UUID)_                    |
+
+## Deploy on Vercel
+
+1. Import this repo in Vercel.
+2. Project Settings → Environment Variables → add the three `VITE_BINDER_*`.
+3. Deploy. Vercel injects them at build time.
+
+> **Vite caveat:** `VITE_*` variables are bundled into the client JS at build
+> time — anyone viewing the page source can read them. For real production,
+> render `authToken` into the page template server-side at request time (see
+> _Production notes_) rather than baking it into the bundle.
 
 Try: *"anything overdue today?"*, *"which vendor has the most exposure?"*,
 *"FC-122 — what's the story?"*

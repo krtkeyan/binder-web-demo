@@ -2,10 +2,16 @@ import { useState, useEffect, useRef } from 'react';
 import { useBinderCoo } from './useBinderCoo';
 import './App.css';
 
+// Defaults come from Vite env vars (injected at build time on Vercel:
+// VITE_BINDER_GATEWAY_URL / VITE_BINDER_AUTH_TOKEN / VITE_BINDER_USER_ID).
+// If unset, the connect form starts empty and the user must paste them in.
+// NOTE: Vite VITE_* vars are bundled into the client JS — they are not truly
+// secret. For production, render the token into the page template server-side
+// (see README "Production notes").
 const STAGING = {
-  gatewayUrl: 'wss://binder-coo.tail2db2f3.ts.net/',
-  authToken: '33695de1ddd1969234f8e65f977858d3d3c095068c667d1a',
-  userId: '69ab5277-cd49-4677-a7e6-9c5687f60417',
+  gatewayUrl: import.meta.env.VITE_BINDER_GATEWAY_URL ?? '',
+  authToken: import.meta.env.VITE_BINDER_AUTH_TOKEN ?? '',
+  userId: import.meta.env.VITE_BINDER_USER_ID ?? '',
 };
 
 function renderMarkdown(text) {

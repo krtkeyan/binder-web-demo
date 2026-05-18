@@ -12,6 +12,20 @@ dist
 dist-ssr
 *.local
 
+# Local secrets — keep out of git. Use Vercel env vars in deployment.
+.env
+.env.*
+!.env.example
+
+# Yarn PnP artifacts (if you ran `yarn` instead of `npm install`)
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
